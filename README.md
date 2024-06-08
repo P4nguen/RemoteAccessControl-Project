@@ -1,4 +1,5 @@
-## This project is the advanced version of the T1059-T1547-Project, thanks to [Taha Demirhan](https://github.com/tahademirhan) we now have a dashboard to see our attack results (reports) and execute them. 
+## This project is the advanced version of the T1059-T1547-Project, thanks to [Taha Demirhan](https://github.com/tahademirhan) 
+We now have a dashboard to see our attack results (reports) and execute them. 
 
 You can check README.docx for instructions.
 
