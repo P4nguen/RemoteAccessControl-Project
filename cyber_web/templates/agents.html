@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block page_title %}Agents{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background-color: #f8f9fa;
+    }
+    .container {
+        width: 100%;
+        padding: 0;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 12px 24px rgba(0,0,0,0.3);
+        overflow: hidden;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    td {
+        padding: 42px 30px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+    th {
+        background-color: #E3E2E6;
+        color: black;
+        text-transform: uppercase;
+        font-weight: 900;
+        font-size: 18px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+        padding: 30px;
+    }
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+    tr:hover {
+        background-color: #e2e6ea;
+    }
+    td {
+        font-size: 16px;
+    }
+    hr {
+        border: none;
+        border-top: 1px solid #ddd;
+        margin: 0;
+    }
+</style>
+
+<div class="container">
+    <table>
+        <thead>
+            <tr>
+                <th style="border-bottom-left-radius: 8px; border-top-left-radius: 8px;">ID</th>
+                <th>Port</th>
+                <th>User</th>
+                <th>Create Date</th>
+                <th style="border-bottom-right-radius: 8px; border-top-right-radius: 8px;">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for agent in agents %}
+            <tr>
+                <td>{{ agent.id }}</td>
+                <td>{{ agent.port }}</td>
+                <td>{{ agent.user }}</td>
+                <td>{{ agent.create_date }}</td>
+                <td>{{ agent.status }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <hr>
+</div>
+
+{% endblock %}

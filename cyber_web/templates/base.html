@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Security App</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* CSS Kodlarınız */
+        body {
+            display: flex;
+            min-height: 100vh;
+            transition: margin-left 0.3s;
+        }
+
+        .sidebar {
+            width: 320px;
+            background-color: #E3E2E6;
+            color: black;
+            padding: 20px;
+            flex-shrink: 0;
+            transition: width 0.3s;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .sidebar.collapsed {
+            width: 120px;
+        }
+
+        .sidebar .nav-link {
+            color: black;
+            margin: 16px 0;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            background-color: #FCA473;
+            border-radius: 8px;
+            height: 60px;
+        }
+
+        .sidebar .nav-link:hover {
+            background-color: #495057;
+            border-radius: 5px;
+        }
+
+        .sidebar .nav-link .icon {
+            margin-right: 30px;
+            margin-left: 10px;
+        }
+
+        .sidebar.collapsed .nav-link .text {
+            display: none;
+        }
+
+        .sidebar.collapsed .nav-link .icon {
+            display: block;
+            padding-right: 0;
+            margin-right: 0;
+            margin-left: 12px;
+        }
+
+        .sidebar.collapsed .logo {
+            display: none;
+        }
+
+        .toggle-btn {
+            position: absolute;
+            top: 20px;
+            left: 40px;
+            background-color: #E3E2E6;
+            color: black;
+            border: none;
+            padding: 22px;
+            cursor: pointer;
+            font-size: 30px;
+            transition: left 0.3s;
+            border-radius: 8px;
+        }
+
+        .sidebar.collapsed + .toggle-btn {
+            left: 80px;
+        }
+
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+            background-color: white;
+            transition: margin-left 0.3s;
+            position: relative;
+        }
+
+        .sidebar.collapsed ~ .content {
+            margin-left: 0;
+        }
+
+        .content h1 {
+            margin-bottom: 20px;
+        }
+
+        .content-ml {
+            margin-left: 110px;
+            padding-top: 20px;
+            padding-bottom: 20px;
+            background-color: #E3E2E6;
+            border-radius: 8px;
+            color: black;
+            padding-left: 20px;
+        }
+
+        .title {
+            color: black;
+            font-size: 30px;
+            font-weight: 700;
+            padding-top: 30px;
+            padding-bottom: 30px;
+            padding-left: 4px;
+        }
+
+        .sidebar.collapsed .title {
+            font-size: 22px;
+        }
+
+        .content-main {
+            padding: 20px;
+            display: flex;
+            flex-grow: 1; /* İçeriğin kalan alanı kaplamasını sağladım */
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="title">Cyber Security App</div>
+        <nav class="nav flex-column">
+            <a class="nav-link" href="{% url 'agents' %}">
+                <span class="icon">&#128100;</span>
+                <span class="text">Agents</span>
+            </a>
+            <a class="nav-link" href="{% url 'reports' %}">
+                <span class="icon">&#128200;</span>
+                <span class="text">Reports</span>
+            </a>
+            <a class="nav-link" href="{% url 'attack' %}">
+                <span class="icon">&#x2694;</span>
+                <span class="text">Attack</span>
+            </a>
+        </nav>
+    </div>
+
+    <div class="content">
+        <h1 class="content-ml" id="displayTitle">{% block page_title %}Dashboard{% endblock %}</h1>
+        <div id="main-content" class="content-main">
+            {% block content %}
+            <p>Hoş geldiniz! Buradan çeşitli işlemleri gerçekleştirebilirsiniz.</p>
+            {% endblock %}
+        </div>
+        <button class="toggle-btn" onclick="toggleSidebar()">&#9776;</button>
+    </div>
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        function toggleSidebar() {
+            document.querySelector('.sidebar').classList.toggle('collapsed');
+        }
+    </script>
+</body>
+</html>

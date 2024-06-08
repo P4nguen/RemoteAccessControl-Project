@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+
+{% block title %}Attack{% endblock %}
+
+{% block page_title %}Attack{% endblock %}
+
+{% block content %}
+<style>
+    .form-container {
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #ffffff;
+        width: 100%;
+        max-width: 1140px;
+        border-radius: 8px;
+        box-shadow: 0 12px 24px rgba(0,0,0,0.3);
+        overflow: hidden;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .result-box {
+        margin-top: 20px;
+        padding: 20px;
+        background-color: #f8f9fa;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+
+    .section-title {
+        font-size: 20px;
+        font-weight: 700;
+        padding: 0 0 8px;
+    }
+</style>
+
+<div class="form-container">
+    <form id="attackForm">
+        <div class="form-group">
+            <label class="section-title" for="ipInput">IP Address</label>
+            <input type="text" class="form-control" id="ipInput" name="ip" value="{{ attack.ip }}">
+        </div>
+        <div class="form-group">
+            <label class="section-title" for="agentSelect">Target</label>
+            <select class="form-control" id="agentSelect" name="agent">
+                {% for agent in agents %}
+                <option value="{{ agent.port }}" data-id="{{ agent.id }}">{{ agent.user }} - Port: {{ agent.port }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="section-title" for="attackTypeSelect">Attack Type</label>
+            <select class="form-control" id="attackTypeSelect" name="attackType" onchange="toggleManualInput()">
+                <option value="T1087-Account Discovery">T1087-Account Discovery</option>
+                <option value="Discovery">Discovery</option>
+                <option value="Manual">Manual</option>
+            </select>
+        </div>
+        <div class="form-group hidden" id="manualInputGroup">
+            <label class="section-title" for="manualInput">Command</label>
+            <textarea class="form-control" id="manualInput" name="manualInput" rows="3"></textarea>
+        </div>
+        <button type="button" class="btn btn-primary" style="width: 200px; height: 40px; margin-top: 16px" onclick="executeAttack()">Attack</button>
+    </form>
+
+    <div class="result-box hidden" id="resultBox" style="margin-top: 32px; background-color: #E3E2E6">
+        <h5>Attack Prompt</h5>
+        <p id="attackPrompt"></p>
+        <h5>Response</h5>
+        <p id="attackResponse"></p>
+    </div>
+</div>
+
+<script>
+    function toggleManualInput() {
+        var attackType = document.getElementById("attackTypeSelect").value;
+        var manualInputGroup = document.getElementById("manualInputGroup");
+        if (attackType === "Manual") {
+            manualInputGroup.classList.remove("hidden");
+        } else {
+            manualInputGroup.classList.add("hidden");
+        }
+    }
+
+    function executeAttack() {
+        var form = document.getElementById("attackForm");
+        var port = form.agent.value;
+        var attackType = form.attackType.value;
+        var manualInput = form.manualInput.value;
+        var agent = form.agent.options[form.agent.selectedIndex].getAttribute('data-id');
+        var ip = document.getElementById("ipInput").value;
+
+        var attackPrompt = "Attack Type: " + attackType + "\n";
+        if (attackType === "Manual") {
+            attackPrompt += "Command: " + manualInput + "\n";
+        }
+
+        document.getElementById("attackPrompt").innerText = attackPrompt;
+
+        $.ajax({
+            url: 'http://172.20.10.3:8080/execute_attack',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                agent: agent,
+                port: port,
+                attackType: attackType,
+                manualInput: manualInput,
+                ip: ip
+            }),
+            success: function(response) {
+                document.getElementById("attackResponse").innerText = response.response;
+                document.getElementById("attackPrompt").innerText = response.command;
+                document.getElementById("resultBox").classList.remove("hidden");
+            }
+        });
+    }
+</script>
+{% endblock %}
