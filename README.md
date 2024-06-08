@@ -11,8 +11,11 @@ The author of this project does not endorse or condone any illegal activities or
 By using the tools and techniques described in this project, you agree to the following:
 
 You will not use this project or any information within it for any illegal activities or unauthorized access to systems.
+
 You understand the risks and legal implications associated with cybersecurity activities.
+
 You will only perform testing on systems you own or have been granted explicit permission to test.
+
 The author takes no responsibility for any damage caused by the misuse of this project.
 
 
